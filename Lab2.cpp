@@ -34,7 +34,7 @@ int main()
     StructWithArray* sPointer = &s;
     //sPointer указывается на s
     sPointer->arr[0] = 20;
-    //первый элемент массива на который указывает sPointer приравнивается к 20(к s)
+    //первый элемент массива на который указывает sPointer приравнивается к 20(в s)
 
     std::cout << s.arr[0] << std::endl;
     s.arr[0] = 25;
@@ -59,7 +59,7 @@ int main()
     structArray[0].arr[3] = 77;
     //записываем в structArray в четвёртый элемент значение 77
     structArray[1].someNumber = &structArray[0].arr[3];
-    //записываем в structArray адрес третьего элемента structArray
+    //записываем в structArray 3 элемента массива чисел из 1 элемента массива структур
 
     sPointer = &s;
     //поинтер перенапрявляет на s
