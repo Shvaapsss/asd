@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <functional>
 #include <random>
+#include <cstdint>
 
 // Функция для создания и заполнения массива случайными числами
 int* createAndFillArray(int size) {
@@ -21,7 +22,7 @@ int* createAndFillArray(int size) {
 
 // Функция для измерения времени выполнения функции
 template <typename Func>
-long long measureExecutionTime(Func func) {
+int64_t measureExecutionTime(Func func) {
     auto start = std::chrono::high_resolution_clock::now();
     func();
     auto end = std::chrono::high_resolution_clock::now();
@@ -159,59 +160,62 @@ int binarySearch(const int* array, int size, int target) {
 int main() {
     srand(time(nullptr));
 
-    const int arraySize = 10000; // Размер массива
-    int* array = createAndFillArray(arraySize);
+    // Тестирование для разных размеров массива
+    for (int arraySize = 1000; arraySize <= 10000; arraySize += 1000) {
+        int* array = createAndFillArray(arraySize);
 
-    // Тестирование Selection Sort
-    std::cout << "Testing Selection Sort..." << std::endl;
-    long long selectionSortTime = measureExecutionTime([&]() {
-        selectionSort(array, arraySize);
-    });
-    std::cout << "Selection Sort Execution Time: " << selectionSortTime << " microseconds" << std::endl;
+        // Тестирование Selection Sort
+        std::cout << "Testing Selection Sort for Array Size " << arraySize << "..." << std::endl;
+        int64_t selectionSortTime = measureExecutionTime([&]() {
+            selectionSort(array, arraySize);
+        });
+        std::cout << "Selection Sort Execution Time: " << selectionSortTime << " microseconds" << std::endl;
 
-    // Тестирование Bubble Sort
-    std::cout << "Testing Bubble Sort..." << std::endl;
-    long long bubbleSortTime = measureExecutionTime([&]() {
-        bubbleSort(array, arraySize);
-    });
-    std::cout << "Bubble Sort Execution Time: " << bubbleSortTime << " microseconds" << std::endl;
+        // Тестирование Bubble Sort
+        std::cout << "Testing Bubble Sort for Array Size " << arraySize << "..." << std::endl;
+        int64_t bubbleSortTime = measureExecutionTime([&]() {
+            bubbleSort(array, arraySize);
+        });
+        std::cout << "Bubble Sort Execution Time: " << bubbleSortTime << " microseconds" << std::endl;
 
-    // Тестирование Merge Sort
-    std::cout << "Testing Merge Sort..." << std::endl;
-    long long mergeSortTime = measureExecutionTime([&]() {
-        mergeSort(array, 0, arraySize - 1);
-    });
-    std::cout << "Merge Sort Execution Time: " << mergeSortTime << " microseconds" << std::endl;
+        // Тестирование Merge Sort
+        std::cout << "Testing Merge Sort for Array Size " << arraySize << "..." << std::endl;
+        int64_t mergeSortTime = measureExecutionTime([&]() {
+            mergeSort(array, 0, arraySize - 1);
+        });
+        std::cout << "Merge Sort Execution Time: " << mergeSortTime << " microseconds" << std::endl;
 
-    // Тестирование Quick Sort
-    std::cout << "Testing Quick Sort..." << std::endl;
-    long long quickSortTime = measureExecutionTime([&]() {
-        quickSort(array, 0, arraySize - 1);
-    });
-    std::cout << "Quick Sort Execution Time: " << quickSortTime << " microseconds" << std::endl;
+        // Тестирование Quick Sort
+        std::cout << "Testing Quick Sort for Array Size " << arraySize << "..." << std::endl;
+        int64_t quickSortTime = measureExecutionTime([&]() {
+            quickSort(array, 0, arraySize - 1);
+        });
+        std::cout << "Quick Sort Execution Time: " << quickSortTime << " microseconds" << std::endl;
 
-    // Тестирование Linear Search
-    std::cout << "Testing Linear Search..." << std::endl;
-    int linearSearchTarget = array[rand() % arraySize]; // Выбираем случайный элемент для поиска
-    long long linearSearchTime = measureExecutionTime([&]() {
-        int result = linearSearch(array, arraySize, linearSearchTarget);
-        // Добавим вывод результата, чтобы компилятор не оптимизировал поиск
-        std::cout << "Linear Search Result: " << result << std::endl;
-    });
-    std::cout << "Linear Search Execution Time: " << linearSearchTime << " microseconds" << std::endl;
+        // Тестирование Linear Search
+        std::cout << "Testing Linear Search for Array Size " << arraySize << "..." << std::endl;
+        int linearSearchTarget = array[rand() % arraySize]; // Выбираем случайный элемент для поиска
+        int64_t linearSearchTime = measureExecutionTime([&]() {
+            int result = linearSearch(array, arraySize, linearSearchTarget);
+            // Добавим вывод результата, чтобы компилятор не оптимизировал поиск
+            std::cout << "Linear Search Result: " << result << std::endl;
+        });
+        std::cout << "Linear Search Execution Time: " << linearSearchTime << " microseconds" << std::endl;
 
-    // Тестирование Binary Search
-    std::cout << "Testing Binary Search..." << std::endl;
-    // Перед бинарным поиском нужно убедиться, что массив отсортирован
-    std::sort(array, array + arraySize);
-    int binarySearchTarget = array[rand() % arraySize]; // Выбираем случайный элемент для поиска
-    long long binarySearchTime = measureExecutionTime([&]() {
-        int result = binarySearch(array, arraySize, binarySearchTarget);
-        // Добавим вывод результата, чтобы компилятор не оптимизировал поиск
-        std::cout << "Binary Search Result: " << result << std::endl;
-    });
-    std::cout << "Binary Search Execution Time: " << binarySearchTime << " microseconds" << std::endl;
+        // Тестирование Binary Search
+        std::cout << "Testing Binary Search for Array Size " << arraySize << "..." << std::endl;
+        // Перед бинарным поиском нужно убедиться, что массив отсортирован
+        std::sort(array, array + arraySize);
+        int binarySearchTarget = array[rand() % arraySize]; // Выбираем случайный элемент для поиска
+        int64_t binarySearchTime = measureExecutionTime([&]() {
+            int result = binarySearch(array, arraySize, binarySearchTarget);
+            // Добавим вывод результата, чтобы компилятор не оптимизировал поиск
+            std::cout << "Binary Search Result: " << result << std::endl;
+        });
+        std::cout << "Binary Search Execution Time: " << binarySearchTime << " microseconds" << std::endl;
 
-    delete[] array;
+        delete[] array;
+    }
+
     return 0;
 }
