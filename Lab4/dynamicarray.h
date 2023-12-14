@@ -1,11 +1,13 @@
 #ifndef DYNAMIC_ARRAY_H
 #define DYNAMIC_ARRAY_H
 
-#include <vector>
+#include <cstddef>
 
 // Структура для представления динамического массива
 struct DynamicArray {
-    std::vector<int> data; // Вектор для хранения данных
+    int* data; // Указатель на массив данных
+    size_t capacity; // Емкость массива
+    size_t length; // Текущая длина массива
 };
 
 // Создание динамического массива с указанной начальной емкостью
